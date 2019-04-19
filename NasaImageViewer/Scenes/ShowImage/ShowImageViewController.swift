@@ -9,22 +9,38 @@
 import UIKit
 
 class ShowImageViewController: UIViewController {
-
+    var interactor: ShowImageInteractor?
+    var router: (NSObjectProtocol & ShowImageRoutingLogic & ShowImageDataPassing)?
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
+    {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setup()
+    }
+    
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    func setup(){
+        let viewController = self
+        let interactor = ShowImageInteractor()
+        let presenter = ShowImagePresenter()
+        let router = ShowImageRouter()
+        viewController.interactor = interactor
+        viewController.router = router
+        interactor.presenter = presenter
+        presenter.viewController = viewController
+        router.viewController = viewController
+        router.dataStore = interactor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func showImage(viewModel:ShowImage.GetImage.ViewModel){
+        
     }
-    */
-
 }

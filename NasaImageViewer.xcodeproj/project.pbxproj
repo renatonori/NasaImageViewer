@@ -26,6 +26,7 @@
 		A90D30D02267D0520071FD89 /* ListImagesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D30CF2267D0520071FD89 /* ListImagesModels.swift */; };
 		A90D30D22267D05E0071FD89 /* ListImagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D30D12267D05E0071FD89 /* ListImagesRouter.swift */; };
 		A90D30D42268D7480071FD89 /* NasaImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D30D32268D7480071FD89 /* NasaImages.swift */; };
+		A9A609AB2268EC8D003BB77A /* NasaImageGetterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A609AA2268EC8D003BB77A /* NasaImageGetterAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		A90D30CF2267D0520071FD89 /* ListImagesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImagesModels.swift; sourceTree = "<group>"; };
 		A90D30D12267D05E0071FD89 /* ListImagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImagesRouter.swift; sourceTree = "<group>"; };
 		A90D30D32268D7480071FD89 /* NasaImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaImages.swift; sourceTree = "<group>"; };
+		A9A609AA2268EC8D003BB77A /* NasaImageGetterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaImageGetterAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,9 +123,9 @@
 		A90D30842267A4F10071FD89 /* NasaImageViewer */ = {
 			isa = PBXGroup;
 			children = (
+				A9A609A92268EC80003BB77A /* Services */,
 				A90D30B82267A56C0071FD89 /* Workers */,
 				A90D30B62267A55D0071FD89 /* Scenes */,
-				A90D30B42267A54A0071FD89 /* Services */,
 				A90D30B32267A5440071FD89 /* Models */,
 				A90D30852267A4F10071FD89 /* AppDelegate.swift */,
 				A90D30892267A4F10071FD89 /* Main.storyboard */,
@@ -160,13 +162,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		A90D30B42267A54A0071FD89 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		A90D30B62267A55D0071FD89 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +194,7 @@
 		A90D30BA2267AD880071FD89 /* ShowImage */ = {
 			isa = PBXGroup;
 			children = (
+				A98B3FEF22697EF200F328D3 /* Nasa Image Collection Cell */,
 				A90D30BD2267C24B0071FD89 /* ShowImageViewController.swift */,
 				A90D30C52267CA880071FD89 /* ShowImageWorker.swift */,
 				A90D30BF2267CA5C0071FD89 /* ShowImageInteractor.swift */,
@@ -207,6 +203,21 @@
 				A90D30C72267CAA20071FD89 /* ShowImageRouter.swift */,
 			);
 			path = ShowImage;
+			sourceTree = "<group>";
+		};
+		A98B3FEF22697EF200F328D3 /* Nasa Image Collection Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Nasa Image Collection Cell";
+			sourceTree = "<group>";
+		};
+		A9A609A92268EC80003BB77A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A9A609AA2268EC8D003BB77A /* NasaImageGetterAPI.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -342,6 +353,7 @@
 			files = (
 				A90D30C42267CA7B0071FD89 /* ShowImageModels.swift in Sources */,
 				A90D30BC2267C23F0071FD89 /* ListImagesViewController.swift in Sources */,
+				A9A609AB2268EC8D003BB77A /* NasaImageGetterAPI.swift in Sources */,
 				A90D30D42268D7480071FD89 /* NasaImages.swift in Sources */,
 				A90D30CC2267CF490071FD89 /* ListImagesInteractor.swift in Sources */,
 				A90D30D22267D05E0071FD89 /* ListImagesRouter.swift in Sources */,

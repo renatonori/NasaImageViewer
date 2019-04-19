@@ -8,6 +8,27 @@
 
 import UIKit
 
-class ListImagesInteractor: NSObject {
+protocol ListImageBusinessLogic {
+    func getListImages(request:ListImages.FetchOrders.Request)
+}
+protocol ListImagesDataStore {
+    var nasaImages:[NasaImage]? {get}
+}
+class ListImagesInteractor: ListImageBusinessLogic,ListImagesDataStore{
+    var nasaImages: [NasaImage]?
 
+    var listImagesWorker:ListImagesWorker = ListImagesWorker()
+    var presenter:ListImagesPresentationLogic?
+    
+    func getListImages(request:ListImages.FetchOrders.Request){
+        listImagesWorker.fetchList(date: Date(), rover: request.rover, success: { (response) in
+            self.nasaImages = response
+            self.presenter?.presentFetchedImages(response: ListImages.FetchOrders.Response(images:response))
+        }) { (error) in
+            self.presenter?.showError()
+        }
+    }
+    func getSegmentList(){
+        self.presenter?.presentAllRovers()
+    }
 }

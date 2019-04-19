@@ -8,6 +8,37 @@
 
 import UIKit
 
-class ListImagesRouter: NSObject {
+@objc protocol ListImagesRoutingLogic{
+    func routeToShowImage(segue:UIStoryboardSegue?)
+}
+protocol ListImagesDataPassing {
+    var dataStore:ListImagesDataStore? {get}
+}
+class ListImagesRouter: NSObject,ListImagesRoutingLogic, ListImagesDataPassing{
+
+    weak var viewController: ListImagesViewController?
+    var dataStore: ListImagesDataStore?
+    
+    func routeToShowImage(segue: UIStoryboardSegue?) {
+        if let segue = segue {
+            let destinationVC = segue.destination as! ShowImageViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToShowImage(source: dataStore!, destination: &destinationDS)
+        } else {
+            let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: "ShowImageViewController") as! ShowImageViewController
+            var destinationDS = destinationVC.router!.dataStore!
+            passDataToShowImage(source: dataStore!, destination: &destinationDS)
+            navigateToshowImage(source: viewController!, destination: destinationVC)
+        }
+    }
+    func navigateToshowImage(source: ListImagesViewController, destination: ShowImageViewController)
+    {
+        source.show(destination, sender: nil)
+    }
+    func passDataToShowImage(source: ListImagesDataStore, destination: inout ShowImageDataStore)
+    {
+//        let selectedRow = viewController?.tableView.indexPathForSelectedRow?.row
+//        destination.order = source.orders?[selectedRow!]
+    }
 
 }

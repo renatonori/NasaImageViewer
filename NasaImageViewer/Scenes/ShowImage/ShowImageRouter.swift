@@ -7,7 +7,14 @@
 //
 
 import UIKit
+protocol ShowImageRoutingLogic {
+    
+}
 
-class ShowImageRouter: NSObject {
-
+protocol ShowImageDataPassing {
+    var dataStore:ShowImageDataStore? {get}
+}
+class ShowImageRouter: NSObject,ShowImageRoutingLogic,ShowImageDataPassing {
+    weak var viewController:ShowImageViewController?
+    var dataStore: ShowImageDataStore?
 }

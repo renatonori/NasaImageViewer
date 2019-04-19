@@ -7,7 +7,20 @@
 //
 
 import UIKit
+protocol ShowImageBusinessLogic {
+    func getImage(request:ShowImage.GetImage.Request)
+}
+protocol ShowImageDataStore{
+    var nasaImage:NasaImage! {get set}
+}
+class ShowImageInteractor: NSObject,ShowImageBusinessLogic,ShowImageDataStore{
 
-class ShowImageInteractor: NSObject {
-
+    
+    var presenter:ShowImagePresentationLogic?
+    var nasaImage: NasaImage!
+    
+    func getImage(request: ShowImage.GetImage.Request) {
+        let response = ShowImage.GetImage.Response(image: nasaImage)
+        self.presenter?.showImage(respose: response)
+    }
 }

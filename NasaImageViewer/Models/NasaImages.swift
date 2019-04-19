@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct NasaImage: Equatable{
-    var name:String
-    var img_src:String
-    var id:String
-    var date:Date
-    
+struct NasaImage: Equatable,Codable{
+    let id:Int
+    let name:String
+    let full_name:String
+    let img_src:String
+    var earth_date:String
 }

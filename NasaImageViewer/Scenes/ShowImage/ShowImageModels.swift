@@ -8,6 +8,27 @@
 
 import UIKit
 
-class ShowImageModels: NSObject {
-
+enum ShowImage
+{
+    // MARK: Use cases
+    enum GetImage
+    {
+        struct Request
+        {
+        }
+        struct Response
+        {
+            var image: NasaImage
+        }
+        struct ViewModel
+        {
+            struct DisplayedImage
+            {
+                var image_src:String
+                var name: String
+                var full_name:String
+            }
+            var displayedOrder:DisplayedImage
+        }
+    }
 }
