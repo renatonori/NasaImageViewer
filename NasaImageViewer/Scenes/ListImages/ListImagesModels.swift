@@ -23,6 +23,7 @@ enum ListImages
         struct Request
         {
             var rover:Rovers
+            var date:Date
         }
         struct Response
         {

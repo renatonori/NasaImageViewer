@@ -26,6 +26,7 @@
 		A90D30D02267D0520071FD89 /* ListImagesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D30CF2267D0520071FD89 /* ListImagesModels.swift */; };
 		A90D30D22267D05E0071FD89 /* ListImagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D30D12267D05E0071FD89 /* ListImagesRouter.swift */; };
 		A90D30D42268D7480071FD89 /* NasaImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D30D32268D7480071FD89 /* NasaImages.swift */; };
+		A98B3FF122697FCA00F328D3 /* NasaImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98B3FF022697FCA00F328D3 /* NasaImageCollectionViewCell.swift */; };
 		A9A609AB2268EC8D003BB77A /* NasaImageGetterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A609AA2268EC8D003BB77A /* NasaImageGetterAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 		A90D30CF2267D0520071FD89 /* ListImagesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImagesModels.swift; sourceTree = "<group>"; };
 		A90D30D12267D05E0071FD89 /* ListImagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListImagesRouter.swift; sourceTree = "<group>"; };
 		A90D30D32268D7480071FD89 /* NasaImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaImages.swift; sourceTree = "<group>"; };
+		A98B3FF022697FCA00F328D3 /* NasaImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		A9A609AA2268EC8D003BB77A /* NasaImageGetterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NasaImageGetterAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,6 +210,7 @@
 		A98B3FEF22697EF200F328D3 /* Nasa Image Collection Cell */ = {
 			isa = PBXGroup;
 			children = (
+				A98B3FF022697FCA00F328D3 /* NasaImageCollectionViewCell.swift */,
 			);
 			path = "Nasa Image Collection Cell";
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				A90D30C22267CA6E0071FD89 /* ShowImagePresenter.swift in Sources */,
 				A90D30BE2267C24B0071FD89 /* ShowImageViewController.swift in Sources */,
 				A90D30862267A4F10071FD89 /* AppDelegate.swift in Sources */,
+				A98B3FF122697FCA00F328D3 /* NasaImageCollectionViewCell.swift in Sources */,
 				A90D30C82267CAA20071FD89 /* ShowImageRouter.swift in Sources */,
 				A90D30C02267CA5C0071FD89 /* ShowImageInteractor.swift in Sources */,
 				A90D30C62267CA880071FD89 /* ShowImageWorker.swift in Sources */,

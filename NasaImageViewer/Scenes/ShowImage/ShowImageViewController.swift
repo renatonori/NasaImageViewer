@@ -8,7 +8,14 @@
 
 import UIKit
 
-class ShowImageViewController: UIViewController {
+class ShowImageViewController: UIViewController,UIScrollViewDelegate{
+    
+    @IBOutlet weak var nameLabbel: UILabel!
+    
+    @IBOutlet weak var nasaImageView: UIImageView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     var interactor: ShowImageInteractor?
     var router: (NSObjectProtocol & ShowImageRoutingLogic & ShowImageDataPassing)?
     
@@ -38,9 +45,32 @@ class ShowImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 6.0
+        self.fetchImage()
+    }
+    var fullName:String = ""
+    var name:String = ""
+    @IBAction func changeNameButton(_ sender: Any) {
+        if self.nameLabbel.text == name{
+            self.nameLabbel.text = fullName
+        }else{
+            self.nameLabbel.text = name
+        }
+    }
+    func fetchImage(){
+        let request = ShowImage.GetImage.Request()
+        interactor?.getImage(request: request)
     }
     func showImage(viewModel:ShowImage.GetImage.ViewModel){
-        
+        let displayedOrder = viewModel.displayedOrder
+        let url = URL(string: displayedOrder.image_src)!
+        self.nasaImageView.load(url: url)
+        self.fullName = displayedOrder.full_name
+        self.name = displayedOrder.name
+        self.nameLabbel.text = displayedOrder.name
+    }
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return nasaImageView
     }
 }

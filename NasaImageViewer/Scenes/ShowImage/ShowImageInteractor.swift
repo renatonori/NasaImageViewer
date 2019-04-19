@@ -14,8 +14,6 @@ protocol ShowImageDataStore{
     var nasaImage:NasaImage! {get set}
 }
 class ShowImageInteractor: NSObject,ShowImageBusinessLogic,ShowImageDataStore{
-
-    
     var presenter:ShowImagePresentationLogic?
     var nasaImage: NasaImage!
     

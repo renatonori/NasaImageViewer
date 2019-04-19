@@ -9,6 +9,9 @@
 import UIKit
 
 class ListImagesWorker{
+    
+    var fetchRequest:URLSessionDataTask?
+    
     func fetchList(date:Date,rover:Rovers,success:@escaping(([NasaImage])->Void), fail:@escaping (ImagesGetError?) -> Void){
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -16,13 +19,26 @@ class ListImagesWorker{
         
         let imageGetter = NasaImageGetterAPI()
         
-        let imageURL = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/\(rover)/photos?earth_date=\(atualDate)&api_key=DEMO_KEY")
+        let imageURL = URL(string: "https://api.nasa.gov/mars-photos/api/v1/rovers/\(rover)/photos?earth_date=\(atualDate)&api_key=rNz2qJpBFsuNhsq5XFoPYiXsLPxo5hdfmOwm1qJ0")
         
-        imageGetter.getMovies(url: imageURL!, successHandler: { (images) in
+        fetchRequest = imageGetter.getMovies(url: imageURL!, successHandler: { (images) in
             success(self.fetch(apiImages:images))
         }) { (error) in
-            fail(error)
+            if let error = error{
+                if error == .CannotGetImage{
+                    self.fetchList(date: self.previousDay(fromDate: date), rover: rover, success: success, fail: fail)
+                }
+            }else{
+                fail(error)
+            }
         }
+        
+    }
+    func stopFetch(){
+        self.fetchRequest?.cancel()
+    }
+    func previousDay(fromDate:Date)->Date{
+        return Calendar.current.date(byAdding: .day, value: -1, to: fromDate)!
     }
     func fetch(apiImages:[NasaImageAPI])->[NasaImage]{
         var nasaImageArray:[NasaImage] = []

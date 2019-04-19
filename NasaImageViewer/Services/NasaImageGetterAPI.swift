@@ -22,38 +22,38 @@ struct CameraInformationAPI:Codable {
 }
 
 class NasaImageGetterAPI: NSObject {
-    func getMovies(url: URL, successHandler: @escaping ([NasaImageAPI]) -> Void, errorHandler: @escaping (ImagesGetError?) -> Void) {
-        let task = URLSession.shared.dataTask(with: url){ (result) in
+    func getMovies(url: URL, successHandler: @escaping ([NasaImageAPI]) -> Void, errorHandler: @escaping (ImagesGetError?) -> Void) -> URLSessionDataTask{
+        
+            let task = URLSession.shared.dataTask(with: url){ (result) in
             switch result {
             case .success( _ , let data):
                 do {
                     let decoder = JSONDecoder()
                     let model = try decoder.decode(NasaImagesAPI.self, from:
                         data) //Decode JSON Response Data
-                    errorHandler(.CannotGetImage("No Image Founded"))
-//                    if model.photos.count > 0{
-//                        successHandler(model.photos)
-//                    }else{
-//                        errorHandler(.CannotGetImage("No Image Founded"))
-//                    }
-                } catch let parsingError {
-                    errorHandler(.CannotGet(parsingError.localizedDescription))
+                    if model.photos.count > 0{
+                        successHandler(model.photos)
+                    }else{
+                        errorHandler(.CannotGetImage)
+                    }
+                } catch _ {
+                    errorHandler(.CannotGet)
                 }
                 break
-            case .failure(let error):
-                errorHandler(.CannotGet(error.localizedDescription))
+            case .failure(_):
+                errorHandler(.CannotGet)
                 break
             }
         }
         task.resume()
-       
+        return task
     }
 }
 
 enum ImagesGetError: Equatable, Error
 {
-    case CannotGet(String)
-    case CannotGetImage(String)
+    case CannotGet
+    case CannotGetImage
 }
 
 extension URLSession {

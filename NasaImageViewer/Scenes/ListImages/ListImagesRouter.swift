@@ -37,8 +37,10 @@ class ListImagesRouter: NSObject,ListImagesRoutingLogic, ListImagesDataPassing{
     }
     func passDataToShowImage(source: ListImagesDataStore, destination: inout ShowImageDataStore)
     {
+        let selectedRow = viewController?.imagesCollectionView.indexPathsForSelectedItems?.first
+        
 //        let selectedRow = viewController?.tableView.indexPathForSelectedRow?.row
-//        destination.order = source.orders?[selectedRow!]
+        destination.nasaImage = source.nasaImages?[(selectedRow?.row)!]
     }
 
 }

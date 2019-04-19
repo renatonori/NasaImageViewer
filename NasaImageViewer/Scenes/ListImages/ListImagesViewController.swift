@@ -13,12 +13,16 @@ protocol ShowImageDisplayLogic: class
     func showFetchedError()
     func setSegments(segments:[String])
 }
-class ListImagesViewController: UIViewController,ShowImageDisplayLogic,UICollectionViewDelegate,UICollectionViewDataSource{
+class ListImagesViewController: UIViewController,ShowImageDisplayLogic,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
 
     
 
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var imagesCollectionView: UICollectionView!
+    @IBOutlet weak var failView: UIStackView!
+    @IBOutlet weak var tryAgainButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var interactor: ListImageBusinessLogic?
     var router: (NSObjectProtocol & ListImagesRoutingLogic & ListImagesDataPassing)?
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?)
@@ -52,32 +56,109 @@ class ListImagesViewController: UIViewController,ShowImageDisplayLogic,UICollect
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        interactor?.getSegmentList()
+        self.fetchImage()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     func setSegments(segments:[String]){
         self.segmentedControl.removeAllSegments()
         for (index,segment) in segments.enumerated(){
             self.segmentedControl.insertSegment(withTitle: segment, at: index, animated: false)
         }
+        self.segmentedControl.selectedSegmentIndex = 0
+    }
+    
+    //fetch Image list
+    var displayedImages:[ListImages.FetchOrders.ViewModel.DisplayedImage] = []
+    
+    func fetchImage(){
+        displayedImages.removeAll()
+        self.imagesCollectionView.reloadData()
+        interactor?.stopRequest()
+        let request = ListImages.FetchOrders.Request(rover: self.getRover(), date: Date())
+        interactor?.getListImages(request: request)
+        self.showFail(fail: false)
+        self.showLoading(show: true)
+    }
+    func getRover()->Rovers{
+        switch self.segmentedControl.selectedSegmentIndex{
+            case 0:
+                return .Curiosity
+            case 1:
+                return .Opportunity
+            case 2:
+                return .Spirit
+            default:
+                return .Curiosity
+        }
     }
     func displayFetchedImageList(viewModel: ListImages.FetchOrders.ViewModel) {
-        
+        self.showFail(fail: false)
+        self.showLoading(show: false)
+        displayedImages = viewModel.displayedImages
+        DispatchQueue.main.async {
+            self.imagesCollectionView.reloadData()
+        }
     }
     func showFetchedError() {
-
+        self.showFail(fail: true)
+        self.showLoading(show: false)
     }
-    var imageArray = ["TEste","TEste","TEste","TEste","TEste","TEste","TEste","TEste","TEste","TEste","TEste","TEste","TEste"]
-    
+    func showFail(fail:Bool){
+        DispatchQueue.main.async {
+            self.failView.isHidden = !fail
+            self.imagesCollectionView.isHidden = fail
+        }
+    }
+    func showLoading(show:Bool){
+        DispatchQueue.main.async {
+            if show{
+                self.activityIndicator.startAnimating()
+            }else{
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if let scene = segue.identifier {
+            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
+            if let router = router, router.responds(to: selector) {
+                router.perform(selector, with: segue)
+            }
+        }
+    }
+    @IBAction func segmentedControlChange(_ sender: Any) {
+        self.fetchImage()
+    }
+    @IBAction func tryAgainClicked(_ sender: Any) {
+        self.fetchImage()
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageArray.count
+        return displayedImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "proCell", for: indexPath) as! CollectionViewCell
-//        cell.proLbl.text = imageArray[indexPath.row]
-//        return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "nasaImageCell", for: indexPath) as! NasaImageCollectionViewCell
+        cell.setNasaImage(imageURLString: displayedImages[indexPath.row].img_src)
+        cell.configure()
+        return cell
     }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let noOfCellsInRow = 2
+        
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        
+        let totalSpace = flowLayout.sectionInset.left
+            + flowLayout.sectionInset.right
+            + (flowLayout.minimumInteritemSpacing * CGFloat(noOfCellsInRow - 1))
+        
+        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(noOfCellsInRow))
+        
+        return CGSize(width: size, height: size)
+    }
     /*
     // MARK: - Navigation
 
